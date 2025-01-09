@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - Cosmic Plan</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="color-scheme" content="dark light">
+</head>
+<body>
+    <div class="language-selector">
+        <select id="languageSelect" onchange="changeLanguage(this.value)">
+            <option value="de">Deutsch</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="it">Italiano</option>
+            <option value="nl">Nederlands</option>
+            <option value="pl">Polski</option>
+            <option value="pt">Português</option>
+            <option value="ru">Русский</option>
+            <option value="tr">Türkçe</option>
+        </select>
+    </div>
+
+    <div class="theme-switch" onclick="toggleTheme()">
+        <div class="sun">
+            <i class="fas fa-sun"></i>
+        </div>
+        <div class="switch-handle"></div>
+        <div class="moon">
+            <i class="fas fa-moon"></i>
+        </div>
+    </div>
+
+    <section class="community-section">
+        <h1>Unsere Community</h1>
+        
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Mitglieder</h3>
+                <div class="stat-number">5,000+</div>
+            </div>
+            <div class="stat-card">
+                <h3>Aktive Channels</h3>
+                <div class="stat-number">20+</div>
+            </div>
+            <div class="stat-card">
+                <h3>Online</h3>
+                <div class="stat-number">500+</div>
+            </div>
+        </div>
+
+        <div class="community-features">
+            <div class="feature-box">
+                <h2>Chat Channels</h2>
+                <p>Verschiedene Channels für jeden Interessenbereich</p>
+                <ul>
+                    <li>🎮 Gaming</li>
+                    <li>💬 Allgemein</li>
+                    <li>🎵 Musik</li>
+                    <li>🎨 Kunst</li>
+                    <li>📚 Bildung</li>
+                </ul>
+            </div>
+
+            <div class="feature-box">
+                <h2>Voice Channels</h2>
+                <p>Sprachkanäle für verschiedene Aktivitäten</p>
+                <ul>
+                    <li>🎮 Gaming Voice</li>
+                    <li>🎵 Musik Lounge</li>
+                    <li>💬 Chill Zone</li>
+                    <li>📚 Lerngruppe</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="join-community">
+            <h2>Werde Teil unserer Community!</h2>
+            <button class="join-button" onclick="window.location.href='https://discord.gg/jFa5u3W8k2'">
+                Jetzt Beitreten
+            </button>
+        </div>
+    </section>
+
+    <script>
+        // Theme Switch Funktionalität
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+
+        function toggleTheme() {
+            const body = document.documentElement;
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Sprachauswahl Funktionalität
+        function changeLanguage(lang) {
+            // Hier die Übersetzungen für die Community-Seite einfügen
+            const translations = {
+                de: {
+                    title: "Unsere Community",
+                    members: "Mitglieder",
+                    channels: "Aktive Channels",
+                    online: "Online",
+                    chatChannels: "Chat Channels",
+                    voiceChannels: "Voice Channels",
+                    joinCommunity: "Werde Teil unserer Community!",
+                    joinButton: "Jetzt Beitreten"
+                },
+                en: {
+                    title: "Our Community",
+                    members: "Members",
+                    channels: "Active Channels",
+                    online: "Online",
+                    chatChannels: "Chat Channels",
+                    voiceChannels: "Voice Channels",
+                    joinCommunity: "Join our Community!",
+                    joinButton: "Join Now"
+                }
+                // Weitere Sprachen hier hinzufügen...
+            };
+
+            const texts = translations[lang] || translations.en;
+            document.querySelector('.community-section h1').textContent = texts.title;
+            // Weitere Textaktualisierungen hier...
+            
+            localStorage.setItem('selectedLanguage', lang);
+        }
+
+        // Beim Laden der Seite die gespeicherte Sprache wiederherstellen
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLanguage = localStorage.getItem('selectedLanguage');
+            if (savedLanguage) {
+                document.getElementById('languageSelect').value = savedLanguage;
+                changeLanguage(savedLanguage);
+            }
+        });
+    </script>
+</body>
+</html> 

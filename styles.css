@@ -1,0 +1,294 @@
+/* Gemeinsame Styles für alle Seiten */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(45deg, var(--accent), #9b59b6);
+    font-family: 'Arial', sans-serif;
+    color: var(--text);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Glasmorphism Effekt für alle Karten */
+.stat-card, .feature-box, .game-card, .event-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+/* Textfarben anpassen */
+h1, h2, h3, p {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Sections Styling */
+.community-section, .gaming-section, .events-section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 2rem 2rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Hover Effekte verstärken */
+.stat-card:hover, .feature-box:hover, .game-card:hover, .event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Buttons im gleichen Style */
+.join-button, .join-game-button, .join-event-button {
+    background-color: var(--accent);
+    color: white !important;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    font-size: 1.2rem;
+    text-shadow: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.join-button:hover, .join-game-button:hover, .join-event-button:hover {
+    transform: scale(1.1);
+    color: white !important;
+}
+
+/* Zusätzliche Effekte */
+.stat-number {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Listen Styling */
+.feature-box ul li {
+    color: white;
+    margin: 0.5rem 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card h2 {
+    color: white !important;
+    margin-bottom: 1rem;
+    text-decoration: none;
+}
+
+.feature-card a {
+    color: white !important;
+    text-decoration: none;
+}
+
+.feature-card p {
+    color: white !important;
+    opacity: 0.9;
+}
+
+/* Falls die Links noch andere Farben erben */
+.feature-card:visited,
+.feature-card:active,
+.feature-card:link {
+    color: white !important;
+    text-decoration: none;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.feature-card {
+    all: unset; /* Entfernt alle Standard-Link-Styles */
+    display: block; /* Macht es wieder zu einem Block-Element */
+    padding: 2rem;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.feature-card h2, 
+.feature-card p {
+    color: white;
+    text-decoration: none;
+    -webkit-text-fill-color: white; /* Für WebKit Browser */
+}
+
+/* Dropdown Animation */
+.language-selector {
+    position: fixed !important;
+    top: 20px !important;
+    right: 90px !important;
+    width: 120px !important;
+    z-index: 1000 !important;
+}
+
+.selected-language {
+    padding: 8px 35px 8px 15px !important;
+    background-color: var(--accent) !important;
+    color: white !important;
+    border-radius: 30px !important;
+    cursor: pointer !important;
+    position: relative !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+.arrow {
+    position: absolute !important;
+    right: 12px !important;
+    top: 50% !important;
+    width: 14px !important;
+    height: 14px !important;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    transform: translateY(-50%) !important;
+    transition: transform 0.3s ease !important;
+}
+
+.language-options {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    background-color: var(--accent) !important;
+    border-radius: 15px !important;
+    margin-top: 10px !important;
+    padding: 8px 0 !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(-10px) !important;
+    transition: all 0.3s ease !important;
+}
+
+.language-option {
+    padding: 8px 15px !important;
+    color: white !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    opacity: 0 !important;
+    transform: translateY(-10px) !important;
+}
+
+.language-option:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.language-selector.active .language-options {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+}
+
+.language-selector.active .arrow {
+    transform: translateY(-50%) rotate(180deg) !important;
+}
+
+.language-selector.active .language-option {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition-delay: 0.2s !important;
+}
+
+/* Light Mode Styles */
+:root {
+    --card-text: white;
+}
+
+[data-theme="dark"] {
+    --card-text: white;
+}
+
+/* Feature Cards Text Farbe */
+.feature-card h2, 
+.feature-card p {
+    color: var(--card-text);
+    transition: color 0.3s ease;
+}
+
+/* Light Mode spezifische Styles */
+:root:not([data-theme="dark"]) .feature-card h2,
+:root:not([data-theme="dark"]) .feature-card p {
+    color: var(--accent);
+    text-shadow: none;
+}
+
+:root:not([data-theme="dark"]) .feature-card {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+:root:not([data-theme="dark"]) .feature-card:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+/* Light Mode Anpassungen */
+:root:not([data-theme="dark"]) {
+    --card-text: var(--accent);
+    --card-bg: rgba(255, 255, 255, 0.25);
+}
+
+/* Feature Section Hintergrund */
+.features {
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    margin-top: 2rem;
+}
+
+/* Feature Cards im Light Mode */
+:root:not([data-theme="dark"]) .feature-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+}
+
+:root:not([data-theme="dark"]) .feature-card:hover {
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+/* Text Styles für bessere Sichtbarkeit */
+:root:not([data-theme="dark"]) .feature-card h2 {
+    color: var(--accent);
+    font-weight: bold;
+}
+
+:root:not([data-theme="dark"]) .feature-card p {
+    color: var(--accent);
+    opacity: 0.9;
+}
+
+/* Hintergrund für die gesamte Seite */
+body {
+    background: linear-gradient(45deg, var(--accent), #9b59b6);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container für den Inhalt */
+.hero, .features {
+    position: relative;
+    z-index: 2;
+} 

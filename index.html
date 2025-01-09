@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Plan</title>
+    <style>
+        :root {
+            --background: #ffffff;
+            --text: #333333;
+            --accent: #7289da;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --background: #1a1a1a;
+            --text: #ffffff;
+            --accent: #5865f2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            transition: background-color 0.3s ease;
+        }
+
+        .theme-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 30px;
+            border-radius: 15px;
+            background-color: #ccc;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .switch-handle {
+            position: absolute;
+            left: 5px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        .theme-switch .sun,
+        .theme-switch .moon {
+            z-index: 1;
+            position: relative;
+        }
+
+        .theme-switch .sun {
+            padding-top: 1px;
+            margin-left: 4px;
+            color: #333;
+        }
+
+        .theme-switch .moon {
+            margin-right: 4px;
+            color: #666;
+        }
+
+        [data-theme="dark"] .switch-handle {
+            transform: translateX(30px);
+        }
+
+        [data-theme="dark"] .theme-switch {
+            background-color: var(--accent);
+        }
+
+        [data-theme="dark"] .theme-switch .sun,
+        [data-theme="dark"] .theme-switch .moon {
+            color: #fff;
+        }
+
+        .theme-switch svg {
+            margin-top: 1px;
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            background: none;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, var(--accent), #9b59b6);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            z-index: 1;
+            opacity: 0.9;
+        }
+
+        .hero .logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: auto;
+            object-fit: contain;
+            z-index: 0;
+            animation: zoomIn 1.5s ease;
+        }
+
+        .hero h1,
+        .hero p,
+        .hero .join-button {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.3s backwards;
+        }
+
+        .join-button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            animation: fadeInUp 1s ease 0.6s backwards;
+        }
+
+        .join-button:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .features {
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            text-decoration: none;
+            color:white!important;
+            padding: 2rem;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Logo im Light-Mode invertieren */
+        :root:not([data-theme="dark"]) .hero .logo {
+            filter: invert(0.8);
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .language-selector {
+            position: fixed !important;
+            top: 20px !important;
+            right: 90px !important;
+            z-index: 1000 !important;
+            width: 120px !important;
+        }
+
+        .language-selector select {
+            width: 100% !important;
+            padding: 8px 35px 8px 15px !important;
+            font-size: 14px !important;
+            border: none !important;
+            border-radius: 30px !important;
+            background-color: var(--accent) !important;
+            color: white !important;
+            cursor: pointer !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+            transition: all 0.3s ease !important;
+            height: 30px !important;
+            line-height: 1 !important;
+            position: relative !important;
+            outline: none !important;
+        }
+
+        /* Styling für das geöffnete Dropdown */
+        .language-selector.active select {
+            border-radius: 15px !important;
+        }
+
+        /* Styling für die Dropdown-Optionen */
+        .language-selector select option {
+            background-color: var(--accent) !important;
+            color: white !important;
+            padding: 15px !important;
+            font-size: 14px !important;
+            cursor: pointer !important;
+            border-radius: 15px !important;
+        }
+
+        /* Container für die Optionen */
+        .language-selector select optgroup {
+            background-color: var(--accent) !important;
+            border-radius: 15px !important;
+            margin-top: 5px !important;
+        }
+
+        /* Hover-Effekt für die Optionen */
+        .language-selector select option:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* Ausgewählte Option */
+        .language-selector select option:checked {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .language-selector::after {
+            content: '' !important;
+            position: absolute !important;
+            right: 12px !important;
+            top: 50% !important;
+            width: 14px !important;
+            height: 14px !important;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important;
+            transform: translateY(-50%) !important;
+            transition: transform 0.3s ease !important;
+            pointer-events: none !important;
+        }
+
+        .language-selector select:focus {
+            outline: none !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+        }
+
+        .language-selector select:focus + .language-selector::after,
+        .language-selector:focus-within::after {
+            transform: translateY(-50%) rotate(180deg) !important;
+        }
+
+        .language-selector select option {
+            background-color: var(--accent) !important;
+            color: white !important;
+            padding: 15px !important;
+            font-size: 14px !important;
+            cursor: pointer !important;
+            border-radius: 15px !important;
+        }
+
+        .language-selector select option:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .language-selector select option:checked {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .language-options {
+            position: absolute !important;
+            top: 100% !important;
+            left: 0 !important;
+            right: 0 !important;
+            background-color: #1a1a1a !important;
+            border-radius: 15px !important;
+            margin-top: 10px !important;
+            padding: 8px 0 !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transform: translateY(-10px) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .language-option {
+            padding: 8px 15px !important;
+            color: white !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            opacity: 0 !important;
+            transform: translateY(-10px) !important;
+        }
+
+        .language-option:hover {
+            background-color: var(--accent) !important;
+        }
+
+        .language-selector.active .language-options {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) !important;
+        }
+
+        .language-selector.active .selected-language::after {
+            transform: translateY(-50%) rotate(180deg) !important;
+        }
+
+        .language-selector.active .language-option {
+            animation: slideIn 0.3s ease forwards !important;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="galaxy-background">
+        <div class="stars"></div>
+        <div class="galaxy"></div>
+        <div class="nebula"></div>
+    </div>
+
+    <div class="language-selector">
+        <select id="languageSelect" onchange="changeLanguage(this.value)">
+            <option value="de">Deutsch</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="it">Italiano</option>
+            <option value="nl">Nederlands</option>
+            <option value="pl">Polski</option>
+            <option value="pt">Português</option>
+            <option value="ru">Русский</option>
+            <option value="tr">Türkçe</option>
+        </select>
+    </div>
+
+    <section class="hero">
+        <img src="Cosmic Plan Logo.png" alt="Cosmic Plan Logo" class="logo">
+        <h1>Cosmic Plan</h1>
+        <p>Tritt unserer fantastischen Community bei!</p>
+        <button class="join-button" onclick="window.location.href='https://discord.gg/jFa5u3W8k2'">Jetzt Beitreten</button>
+    </section>
+
+    <section class="features">
+        <a href="community.html" class="feature-card">
+            <div>
+                <h2>Aktive Community</h2>
+                <p>Werde Teil einer lebendigen und freundlichen Community!</p>
+            </div>
+        </a>
+        <a href="events.html" class="feature-card">
+            <div>
+                <h2>Events</h2>
+                <p>Regelmäßige Events und Aktivitäten für alle Mitglieder.</p>
+            </div>
+        </a>
+        <a href="gaming.html" class="feature-card">
+            <div>
+                <h2>Gaming</h2>
+                <p>Finde Mitspieler für deine Lieblingsspiele.</p>
+            </div>
+        </a>
+    </section>
+    <div class="theme-switch" onclick="toggleTheme()">
+        <div class="sun">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+        </div>
+        <div class="switch-handle"></div>
+        <div class="moon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+        </div>
+    </div>
+    <script>
+        // Beim Laden der Seite den gespeicherten Theme-Modus wiederherstellen
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+
+        function toggleTheme() {
+            const body = document.documentElement;
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
+    <script>
+        function changeLanguage(lang) {
+            const translations = {
+                de: {
+                    title: "Cosmic Plan",
+                    subtitle: "Tritt unserer fantastischen Community bei!",
+                    joinButton: "Jetzt Beitreten",
+                    feature1Title: "Aktive Community",
+                    feature1Text: "Werde Teil einer lebendigen und freundlichen Community!",
+                    feature2Title: "Events",
+                    feature2Text: "Regelmäßige Events und Aktivitäten für alle Mitglieder.",
+                    feature3Title: "Gaming",
+                    feature3Text: "Finde Mitspieler für deine Lieblingsspiele."
+                },
+                en: {
+                    title: "Cosmic Plan",
+                    subtitle: "Join our fantastic community!",
+                    joinButton: "Join Now",
+                    feature1Title: "Active Community",
+                    feature1Text: "Become part of a vibrant and friendly community!",
+                    feature2Title: "Events",
+                    feature2Text: "Regular events and activities for all members.",
+                    feature3Title: "Gaming",
+                    feature3Text: "Find players for your favorite games."
+                },
+                es: {
+                    title: "Cosmic Plan",
+                    subtitle: "¡Únete a nuestra fantástica comunidad!",
+                    joinButton: "Únete Ahora",
+                    feature1Title: "Comunidad Activa",
+                    feature1Text: "¡Sé parte de una comunidad vibrante y amigable!",
+                    feature2Title: "Eventos",
+                    feature2Text: "Eventos y actividades regulares para todos los miembros.",
+                    feature3Title: "Juegos",
+                    feature3Text: "Encuentra jugadores para tus juegos favoritos."
+                },
+                fr: {
+                    title: "Cosmic Plan",
+                    subtitle: "Rejoignez notre fantastique communauté !",
+                    joinButton: "Rejoindre",
+                    feature1Title: "Communauté Active",
+                    feature1Text: "Faites partie d'une communauté dynamique et amicale !",
+                    feature2Title: "Événements",
+                    feature2Text: "Événements et activités réguliers pour tous les membres.",
+                    feature3Title: "Jeux",
+                    feature3Text: "Trouvez des joueurs pour vos jeux préférés."
+                },
+                it: {
+                    title: "Cosmic Plan",
+                    subtitle: "Unisciti alla nostra fantastica community!",
+                    joinButton: "Unisciti Ora",
+                    feature1Title: "Community Attiva",
+                    feature1Text: "Diventa parte di una community vivace e amichevole!",
+                    feature2Title: "Eventi",
+                    feature2Text: "Eventi e attività regolari per tutti i membri.",
+                    feature3Title: "Giochi",
+                    feature3Text: "Trova giocatori per i tuoi giochi preferiti."
+                },
+                nl: {
+                    title: "Cosmic Plan",
+                    subtitle: "Word lid van onze fantastische community!",
+                    joinButton: "Nu Lid Worden",
+                    feature1Title: "Actieve Community",
+                    feature1Text: "Word deel van een levendige en vriendelijke community!",
+                    feature2Title: "Evenementen",
+                    feature2Text: "Regelmatige evenementen en activiteiten voor alle leden.",
+                    feature3Title: "Gaming",
+                    feature3Text: "Vind spelers voor je favoriete games."
+                },
+                pl: {
+                    title: "Cosmic Plan",
+                    subtitle: "Dołącz do naszej fantastycznej społeczności!",
+                    joinButton: "Dołącz Teraz",
+                    feature1Title: "Aktywna Społeczność",
+                    feature1Text: "Stań się częścią żywej i przyjaznej społeczności!",
+                    feature2Title: "Wydarzenia",
+                    feature2Text: "Regularne wydarzenia i aktywności dla wszystkich członków.",
+                    feature3Title: "Gry",
+                    feature3Text: "Znajdź graczy do swoich ulubionych gier."
+                },
+                pt: {
+                    title: "Cosmic Plan",
+                    subtitle: "Junte-se à nossa fantástica comunidade!",
+                    joinButton: "Juntar-se Agora",
+                    feature1Title: "Comunidade Ativa",
+                    feature1Text: "Torne-se parte de uma comunidade vibrante e amigável!",
+                    feature2Title: "Eventos",
+                    feature2Text: "Eventos e atividades regulares para todos os membros.",
+                    feature3Title: "Jogos",
+                    feature3Text: "Encontre jogadores para seus jogos favoritos."
+                },
+                ru: {
+                    title: "Cosmic Plan",
+                    subtitle: "Присоединяйтесь к нашему фантастическому сообществу!",
+                    joinButton: "Присоединиться",
+                    feature1Title: "Активное Сообщество",
+                    feature1Text: "Станьте частью живого и дружелюбного сообщества!",
+                    feature2Title: "События",
+                    feature2Text: "Регулярные события и мероприятия для всех участников.",
+                    feature3Title: "Игры",
+                    feature3Text: "Найдите игроков для ваших любимых игр."
+                },
+                tr: {
+                    title: "Cosmic Plan",
+                    subtitle: "Harika topluluğumuza katılın!",
+                    joinButton: "Şimdi Katıl",
+                    feature1Title: "Aktif Topluluk",
+                    feature1Text: "Canlı ve dostça bir topluluğun parçası olun!",
+                    feature2Title: "Etkinlikler",
+                    feature2Text: "Tüm üyeler için düzenli etkinlikler ve aktiviteler.",
+                    feature3Title: "Oyunlar",
+                    feature3Text: "Favori oyunlarınız için oyuncular bulun."
+                }
+            };
+
+            // Texte aktualisieren
+            const texts = translations[lang];
+            document.querySelector('.hero h1').textContent = texts.title;
+            document.querySelector('.hero p').textContent = texts.subtitle;
+            document.querySelector('.join-button').textContent = texts.joinButton;
+            
+            // Feature Cards aktualisieren
+            const features = document.querySelectorAll('.feature-card');
+            features[0].querySelector('h2').textContent = texts.feature1Title;
+            features[0].querySelector('p').textContent = texts.feature1Text;
+            features[1].querySelector('h2').textContent = texts.feature2Title;
+            features[1].querySelector('p').textContent = texts.feature2Text;
+            features[2].querySelector('h2').textContent = texts.feature3Title;
+            features[2].querySelector('p').textContent = texts.feature3Text;
+
+            // Sprache im localStorage speichern
+            localStorage.setItem('selectedLanguage', lang);
+        }
+
+        // Beim Laden der Seite die gespeicherte Sprache wiederherstellen
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLanguage = localStorage.getItem('selectedLanguage');
+            if (savedLanguage) {
+                document.getElementById('languageSelect').value = savedLanguage;
+                changeLanguage(savedLanguage);
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageSelector = document.querySelector('.language-selector');
+            const select = languageSelector.querySelector('select');
+            let isOpen = false;
+
+            // Öffnen und Schließen des Menüs
+            select.addEventListener('click', function(e) {
+                if (!isOpen) {
+                    languageSelector.classList.add('active');
+                    isOpen = true;
+                } else {
+                    languageSelector.classList.remove('active');
+                    isOpen = false;
+                    document.activeElement.blur();
+                }
+            });
+
+            // Sprache ändern wenn Option ausgewählt
+            select.addEventListener('change', function(e) {
+                languageSelector.classList.remove('active');
+                isOpen = false;
+                changeLanguage(this.value);
+            });
+
+            // Schließen wenn außerhalb geklickt wird
+            document.addEventListener('click', function(e) {
+                if (!languageSelector.contains(e.target)) {
+                    languageSelector.classList.remove('active');
+                    isOpen = false;
+                }
+            });
+
+            // Beim Laden der Seite die gespeicherte Sprache wiederherstellen
+            const savedLanguage = localStorage.getItem('selectedLanguage');
+            if (savedLanguage) {
+                select.value = savedLanguage;
+                changeLanguage(savedLanguage);
+            }
+        });
+    </script>
+    <script>
+        function toggleDropdown() {
+            const selector = document.querySelector('.language-selector');
+            selector.classList.toggle('active');
+        }
+
+        function selectLanguage(lang, label) {
+            document.getElementById('currentLanguage').textContent = label;
+            toggleDropdown();
+            changeLanguage(lang);
+        }
+
+        // Schließen des Dropdowns wenn außerhalb geklickt wird
+        document.addEventListener('click', function(e) {
+            const selector = document.querySelector('.language-selector');
+            if (!selector.contains(e.target)) {
+                selector.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
