@@ -26,6 +26,7 @@
         }
 
         body {
+            user-select: none;
             font-family: 'Segoe UI', sans-serif;
             background-color: var(--background);
             color: var(--text);
@@ -209,7 +210,7 @@
         }
 
         :root:not([data-theme="dark"]) .feature-card {
-            background-color: #ccc;
+            background-color: #e9e9e9;
         }
 
 
@@ -234,6 +235,7 @@
         }
 
         .language-selector {
+            color: white !important;
             background-color: #5865f2 !important;
             padding: 4px 35px 4px 15px !important;
             border-radius: 30px !important;
@@ -313,6 +315,10 @@
             pointer-events: none !important;
         }
 
+        .language-selector.active::after {
+            transform: translateY(-50%) rotate(180deg) !important;
+        }
+
         .language-selector select:focus {
             outline: none !important;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
@@ -363,9 +369,6 @@
             transition: all 0.3s ease !important;
             transform: translateY(-10px) !important;
             border-radius: 15px !important;
-        }
-
-        .language-option:hover {
         }
 
         .language-selector.active .language-options {
@@ -424,24 +427,24 @@
     </section>
 
     <section class="features">
-        <a href="community.html" class="feature-card">
+        <span class="feature-card">
             <div>
                 <h2>Aktive Community</h2>
                 <p>Werde Teil einer lebendigen und freundlichen Community!</p>
             </div>
-        </a>
-        <a href="events.html" class="feature-card">
+        </span>
+        <span class="feature-card">
             <div>
                 <h2>Events</h2>
                 <p>Regelmäßige Events und Aktivitäten für alle Mitglieder.</p>
             </div>
-        </a>
-        <a href="gaming.html" class="feature-card">
+        </span>
+        <span class="feature-card">
             <div>
                 <h2>Gaming</h2>
                 <p>Finde Mitspieler für deine Lieblingsspiele.</p>
             </div>
-        </a>
+        </span>
     </section>
     <div class="theme-switch" onclick="toggleTheme()">
         <div class="sun">
